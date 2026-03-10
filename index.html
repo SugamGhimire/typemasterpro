@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>TypeMaster Pro - Master Your Typing Speed</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold-primary: #ffd700;
+            --gold-dark: #e6b800;
+            --cyan: #00ffff;
+            --bg-dark: #2a2a2a;
+            --bg-darker: #1a1a1a;
+            --text-light: #d0d0d0;
+            --text-dim: #b0b0b0;
+            --text-dark: #8a8a8a;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            position: relative;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Grid Background - Right side only */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: min(80px, 8vw) min(80px, 8vw);
+            pointer-events: none;
+            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 0;
+        }
+
+        /* Animated overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 70%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 8s ease infinite;
+            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Floating particles */
+        .grid-particles {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @media (max-width: 768px) {
+            .particle {
+                width: 2px;
+                height: 2px;
+            }
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* =====================
+           LANDING PAGE
+        ===================== */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            padding: 5% 5% 5% 5%;
+            overflow-y: auto;
+        }
+
+        .landing-content {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 0 0;
+            animation: slideInLeft 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Title */
+        .title-section {
+            margin-bottom: clamp(1.5rem, 4vh, 3rem);
+        }
+
+        .main-title {
+            font-size: clamp(2.8rem, 12vw, 6rem);
+            font-weight: 700;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 215, 0, 0.3);
+            animation: revealTitle 1.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                -webkit-text-stroke: 1px rgba(255, 215, 0, 0.3);
+            }
+        }
+
+        .main-title span {
+            display: block;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0px transparent;
+            animation: glowText 3s infinite;
+        }
+
+        @keyframes revealTitle {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowText {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+            50%       { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)); }
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3.5vw, 1.6rem);
+            font-weight: 500;
+            color: var(--text-dim);
+            margin-top: 1.5vh;
+            letter-spacing: 0.1em;
+            padding-left: clamp(0.8rem, 2vw, 1.5rem);
+            border-left: 4px solid var(--gold-primary);
+            animation: slideInBorder 1s ease 0.3s both;
+        }
+
+        @keyframes slideInBorder {
+            from { opacity: 0; transform: translateX(-20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Features */
+        .features-list {
+            margin: clamp(1.5rem, 4vh, 2.5rem) 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.8rem, 2vh, 1.5rem);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.8rem, 2vw, 1.5rem);
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .feature-item:nth-child(1) { animation-delay: 0.4s; }
+        .feature-item:nth-child(2) { animation-delay: 0.6s; }
+        .feature-item:nth-child(3) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .feature-icon {
+            width: clamp(2.5rem, 7vw, 3.5rem);
+            height: clamp(2.5rem, 7vw, 3.5rem);
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            color: var(--gold-primary);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: clamp(0.95rem, 3vw, 1.3rem);
+            font-weight: 500;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .feature-text strong {
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: clamp(1rem, 4vw, 3rem);
+            margin: clamp(1.5rem, 4vh, 2.5rem) 0;
+            padding: clamp(1rem, 2vh, 1.5rem) 0;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            animation: fadeIn 1s ease 0.9s both;
+            opacity: 0;
+            flex-wrap: wrap;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .stat-item {
+            position: relative;
+            flex: 1 1 80px;
+        }
+
+        .stat-number {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: clamp(0.65rem, 2vw, 0.85rem);
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60%;
+            background: linear-gradient(to bottom, transparent, var(--gold-primary), transparent);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        /* Creator Credit */
+        .creator-section {
+            margin: clamp(1rem, 3vh, 2rem) 0;
+            animation: fadeIn 1s ease 1.1s both;
+            opacity: 0;
+        }
+
+        .creator-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(0.4rem, 1.5vw, 0.8rem);
+            background: rgba(32, 32, 32, 0.6);
+            backdrop-filter: blur(10px);
+            padding: clamp(0.5rem, 1.5vh, 0.9rem) clamp(1rem, 3vw, 1.8rem);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .creator-badge i {
+            color: var(--gold-primary);
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            animation: pulse 2s infinite;
+        }
+
+        .creator-badge span {
+            color: var(--text-dim);
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            font-weight: 500;
+        }
+
+        .creator-badge .name {
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3.2vw, 1.2rem);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.15); }
+        }
+
+        /* Start Button */
+        .action-section {
+            margin-top: clamp(1.5rem, 4vh, 3rem);
+            animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.3s both;
+            opacity: 0;
+        }
+
+        @keyframes bounceIn {
+            0%   { opacity: 0; transform: scale(0.3); }
+            50%  { opacity: 1; transform: scale(1.05); }
+            70%  { transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            color: var(--bg-dark);
+            font-size: clamp(1rem, 4vw, 1.6rem);
+            font-weight: 700;
+            padding: clamp(0.8rem, 2.5vh, 1.3rem) clamp(1.8rem, 6vw, 3.5rem);
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        .start-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .start-btn .arrow-icon {
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            animation: slideRight 1.5s infinite;
+        }
+
+        @keyframes slideRight {
+            0%, 100% { transform: translateX(0); }
+            50%       { transform: translateX(5px); }
+        }
+
+        @media (max-width: 480px) {
+            .start-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* =====================
+           TYPING TEST PAGE
+        ===================== */
+        .typing-test-page {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+
+        .typing-test-page.active {
+            display: block;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: clamp(0.6rem, 2vh, 1.2rem);
+            left: clamp(0.6rem, 2vw, 1.2rem);
+            background: rgba(32, 32, 32, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: clamp(0.4rem, 1.5vh, 0.7rem) clamp(0.8rem, 3vw, 1.4rem);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.6rem);
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            font-weight: 600;
+            z-index: 100;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(-2px);
+        }
+
+        /* Typing Container */
+        .typing-container {
+            max-width: 900px;
+            width: 92%;
+            margin: 0 auto;
+            padding: clamp(4rem, 10vh, 6rem) 0 clamp(2rem, 5vh, 3rem);
+        }
+
+        /* Test Header */
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+            flex-wrap: wrap;
+            gap: clamp(0.8rem, 2vh, 1.5rem);
+        }
+
+        .test-logo {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            padding: clamp(0.4rem, 1.5vh, 0.7rem) clamp(0.8rem, 3vw, 1.6rem);
+            border: 2px solid;
+            border-radius: 100px;
+            background: transparent;
+            font-size: clamp(0.8rem, 3vw, 1.1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.6rem);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .test-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .test-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+        }
+
+        .test-btn-primary {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+
+        .test-btn-primary:not(:disabled):hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .test-btn-secondary {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .test-btn-secondary:not(:disabled):hover {
+            background: rgba(0, 255, 255, 0.08);
+        }
+
+        /* Timer */
+        .timer-display {
+            text-align: center;
+            margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+        }
+
+        .timer-box {
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            background: rgba(32, 32, 32, 0.7);
+            backdrop-filter: blur(10px);
+            padding: clamp(0.5rem, 1.5vh, 1rem) clamp(1.2rem, 4vw, 2.5rem);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .timer-box i {
+            color: var(--gold-primary);
+            font-size: clamp(1rem, 3.5vw, 1.5rem);
+        }
+
+        #responseTimer {
+            font-size: clamp(1.2rem, 5vw, 2.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            min-width: clamp(60px, 12vw, 90px);
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Quote */
+        .quote-container {
+            background: rgba(32, 32, 32, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: clamp(1rem, 3vw, 1.8rem);
+            padding: clamp(1.2rem, 3vh, 2rem) clamp(1.2rem, 3vw, 2rem);
+            margin-bottom: clamp(1.2rem, 3vh, 2rem);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            min-height: clamp(80px, 15vh, 140px);
+        }
+
+        .quote-text {
+            font-size: clamp(1rem, 2.8vw, 1.5rem);
+            line-height: 1.8;
+            color: var(--text-light);
+            font-family: 'Fira Code', monospace;
+            word-break: break-word;
+        }
+
+        .char {
+            position: relative;
+            display: inline;
+            white-space: pre;
+        }
+
+        /* Space indicator */
+        .char[data-char=" "]::before {
+            content: '·';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--gold-primary);
+            font-size: 0.5em;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .char.correct {
+            color: var(--cyan);
+        }
+
+        .char.incorrect {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.15);
+            border-radius: 2px;
+        }
+
+        .char.current {
+            background: rgba(0, 255, 255, 0.18);
+            border-radius: 2px;
+            animation: cursorGlow 1s infinite;
+        }
+
+        @keyframes cursorGlow {
+            0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 255, 0.4); }
+            50%       { box-shadow: 0 0 18px rgba(255, 215, 0, 0.4); }
+        }
+
+        /* Textarea */
+        .typing-area {
+            margin-bottom: clamp(1rem, 2.5vh, 2rem);
+        }
+
+        textarea {
+            width: 100%;
+            height: clamp(90px, 18vh, 160px);
+            padding: clamp(0.9rem, 2.5vh, 1.5rem) clamp(1rem, 3vw, 1.8rem);
+            font-size: clamp(0.95rem, 3vw, 1.2rem);
+            background: rgba(32, 32, 32, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid #3a3a3a;
+            border-radius: clamp(1rem, 3vw, 1.8rem);
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            color: var(--text-light);
+            line-height: 1.6;
+            font-family: 'Fira Code', monospace;
+        }
+
+        textarea:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+        }
+
+        textarea:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: clamp(1rem, 2.5vh, 2rem);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--text-dim);
+            font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold-primary));
+            width: 0%;
+            transition: width 0.2s ease;
+            border-radius: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+            margin-top: clamp(1rem, 3vh, 2rem);
+            padding-bottom: 1rem;
+        }
+
+        /* =====================
+           RESULTS MODAL
+        ===================== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 26, 0.92);
+            backdrop-filter: blur(15px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 5%;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-dark);
+            padding: clamp(1.5rem, 4vh, 3rem);
+            border-radius: clamp(1.2rem, 4vw, 2.5rem);
+            max-width: min(800px, 100%);
+            width: 100%;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: clamp(0.8rem, 2.5vh, 1.2rem);
+            right: clamp(0.8rem, 3vw, 1.5rem);
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: var(--gold-primary);
+            cursor: pointer;
+            width: clamp(1.8rem, 5vw, 2.4rem);
+            height: clamp(1.8rem, 5vw, 2.4rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            transition: background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .modal h2 {
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            color: var(--text-light);
+            margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+            padding-right: 3rem;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .horizontal-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+            gap: clamp(0.8rem, 2vw, 1.5rem);
+            margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+        }
+
+        .stat-card {
+            background: rgba(20, 20, 20, 0.6);
+            padding: clamp(1rem, 2.5vh, 1.8rem) clamp(0.8rem, 2vw, 1.5rem);
+            border-radius: clamp(0.8rem, 3vw, 1.5rem);
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .stat-card .label {
+            color: var(--text-dim);
+            font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .stat-card .value {
+            font-size: clamp(1.3rem, 5vw, 2.4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: clamp(0.8rem, 2vw, 1.2rem);
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn {
+            padding: clamp(0.5rem, 1.8vh, 1rem) clamp(1.2rem, 4vw, 2rem);
+            border: 2px solid var(--gold-primary);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--gold-primary);
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+
+        .modal-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .modal-actions { justify-content: stretch; }
+            .modal-btn     { width: 100%; text-align: center; }
+        }
+
+        /* Responsive adjustments for very small screens */
+        @media (max-width: 360px) {
+            .creator-badge { flex-direction: column; text-align: center; gap: 0.3rem; }
+            .test-header   { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar        { width: 6px; }
+        ::-webkit-scrollbar-track  { background: var(--bg-darker); }
+        ::-webkit-scrollbar-thumb  { background: rgba(255, 215, 0, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 215, 0, 0.5); }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div class="grid-particles" id="particles"></div>
+
+    <!-- Landing Page -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-content">
+            <div class="title-section">
+                <h1 class="main-title">
+                    <span>TypeMaster</span>
+                    <span>Pro</span>
+                </h1>
+                <div class="subtitle">Master Your Typing Speed</div>
+            </div>
+
+            <ul class="features-list">
+                <li class="feature-item">
+                    <div class="feature-icon"><i class='bx bx-line-chart'></i></div>
+                    <div class="feature-text"><strong>Real-time</strong> WPM &amp; Accuracy Tracking</div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-icon"><i class='bx bx-error-circle'></i></div>
+                    <div class="feature-text"><strong>Live Error</strong> Detection with Visual Feedback</div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-icon"><i class='bx bx-time'></i></div>
+                    <div class="feature-text"><strong>Precision Timer</strong> — Complete at Your Own Pace</div>
+                </li>
+            </ul>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">WPM Avg</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Quotes</div>
+                </div>
+            </div>
+
+            <div class="creator-section">
+                <div class="creator-badge">
+                    <i class='bx bx-code-alt'></i>
+                    <span>Created by</span>
+                    <span class="name">Sugam Ghimire</span>
+                    <i class='bx bx-heart'></i>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button class="start-btn" id="startTestBtn">
+                    <i class='bx bx-play'></i>
+                    Start Test
+                    <i class='bx bx-chevron-right arrow-icon'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Typing Test Page -->
+    <div class="typing-test-page" id="typingTestPage">
+        <button class="back-btn" id="backToLandingBtn">
+            <i class='bx bx-arrow-back'></i>
+            Back
+        </button>
+
+        <div class="typing-container">
+            <div class="test-header">
+                <div class="test-logo">TypeMaster Pro</div>
+                <div class="test-controls">
+                    <button class="test-btn test-btn-primary" id="testStartBtn">
+                        <i class='bx bx-play'></i>
+                        Start
+                    </button>
+                    <button class="test-btn test-btn-secondary" id="testResetBtn" disabled>
+                        <i class='bx bx-reset'></i>
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="timer-display">
+                <div class="timer-box">
+                    <i class='bx bx-time'></i>
+                    <span id="responseTimer">0.0s</span>
+                </div>
+            </div>
+
+            <div class="quote-container">
+                <div class="quote-text" id="quoteDisplay"></div>
+            </div>
+
+            <div class="typing-area">
+                <textarea id="userInput" placeholder="Click Start and begin typing..." disabled spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off"></textarea>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>Progress</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="footer">TypeMaster Pro &mdash; Test your speed &amp; accuracy</div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal" role="dialog" aria-modal="true" aria-label="Test Results">
+        <div class="modal-content">
+            <div class="modal-close" id="closeModalBtn" role="button" aria-label="Close">
+                <i class='bx bx-x'></i>
+            </div>
+            <h2>Test Results</h2>
+            <div class="horizontal-stats">
+                <div class="stat-card">
+                    <div class="label">WPM</div>
+                    <div class="value" id="resultWPM">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Accuracy</div>
+                    <div class="value" id="resultAccuracy">0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Time</div>
+                    <div class="value" id="resultTime">0s</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Errors</div>
+                    <div class="value" id="resultErrors">0</div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn" id="newTestBtn">New Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =====================
+           PARTICLES
+        ===================== */
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            const count = window.innerWidth < 768 ? 15 : 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = (Math.random() * 100) + '%';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                p.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        /* =====================
+           QUOTES
+        ===================== */
+        const quotes = [
+            "The quick brown fox jumps over the lazy dog near the river bank where the sun sets beautifully every evening.",
+            "Programming is the art of telling another human what one wants the computer to do with precision and clarity.",
+            "Success is not final failure is not fatal it is the courage to continue that counts in the end.",
+            "The only way to learn a new programming language is by writing programs in it consistently every day.",
+            "Design is not just what it looks like and feels like design is how it works and solves problems.",
+            "Imagination is more important than knowledge because knowledge is limited while imagination encircles the world.",
+            "Every great developer you know got there by solving problems they were not qualified to solve until they did.",
+            "The best way to predict the future is to invent it with creativity hard work and relentless determination.",
+            "In the middle of every difficulty lies opportunity for those who are patient enough to look for it.",
+            "Do not watch the clock do what it does keep going and never stop until the goal is reached."
+        ];
+
+        /* =====================
+           DOM REFS
+        ===================== */
+        const landingPage       = document.getElementById('landingPage');
+        const typingTestPage    = document.getElementById('typingTestPage');
+        const startTestBtn      = document.getElementById('startTestBtn');
+        const backToLandingBtn  = document.getElementById('backToLandingBtn');
+        const testStartBtn      = document.getElementById('testStartBtn');
+        const testResetBtn      = document.getElementById('testResetBtn');
+        const userInput         = document.getElementById('userInput');
+        const quoteDisplay      = document.getElementById('quoteDisplay');
+        const responseTimer     = document.getElementById('responseTimer');
+        const progressFill      = document.getElementById('progressFill');
+        const progressPercent   = document.getElementById('progressPercent');
+        const modal             = document.getElementById('resultsModal');
+        const closeModalBtn     = document.getElementById('closeModalBtn');
+        const newTestBtn        = document.getElementById('newTestBtn');
+        const resultWPM         = document.getElementById('resultWPM');
+        const resultAccuracy    = document.getElementById('resultAccuracy');
+        const resultTime        = document.getElementById('resultTime');
+        const resultErrors      = document.getElementById('resultErrors');
+
+        /* =====================
+           STATE
+        ===================== */
+        let currentQuote  = '';
+        let charElements  = [];
+        let timerInterval = null;
+        let startTime     = null;
+        let isActive      = false;
+        let errors        = 0;
+        let totalKeystrokes = 0;   // total characters typed (no deletions subtracted)
+        let errorSet      = new Set(); // track indices that were ever wrong
+
+        /* =====================
+           NAVIGATION
+        ===================== */
+        function showLandingPage() {
+            stopTimer();
+            landingPage.style.display = 'flex';
+            typingTestPage.classList.remove('active');
+        }
+
+        function showTypingTestPage() {
+            landingPage.style.display = 'none';
+            typingTestPage.classList.add('active');
+            initializeTest();
+        }
+
+        /* =====================
+           TEST LOGIC
+        ===================== */
+        function initializeTest() {
+            stopTimer();
+            isActive = false;
+
+            // Pick a random quote (different from current when possible)
+            let idx;
+            do { idx = Math.floor(Math.random() * quotes.length); }
+            while (quotes.length > 1 && quotes[idx] === currentQuote);
+            currentQuote = quotes[idx];
+
+            renderQuote(currentQuote);
+
+            userInput.value   = '';
+            userInput.disabled = true;
+            testStartBtn.disabled = false;
+            testResetBtn.disabled = true;
+
+            errors         = 0;
+            totalKeystrokes = 0;
+            errorSet       = new Set();
+
+            responseTimer.textContent = '0.0s';
+            updateProgress(0);
+        }
+
+        function renderQuote(quote) {
+            quoteDisplay.innerHTML = quote
+                .split('')
+                .map((ch, i) => `<span class="char" data-index="${i}" data-char="${ch === '"' ? '&quot;' : ch}">${ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch}</span>`)
+                .join('');
+            charElements = Array.from(document.querySelectorAll('.char'));
+            // Mark first char as current
+            if (charElements.length > 0) charElements[0].classList.add('current');
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                responseTimer.textContent = elapsed.toFixed(1) + 's';
+            }, 100);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateProgress(typedLength) {
+            const pct = currentQuote.length > 0
+                ? Math.min(100, Math.round((typedLength / currentQuote.length) * 100))
+                : 0;
+            progressFill.style.width   = pct + '%';
+            progressPercent.textContent = pct + '%';
+        }
+
+        function updateCharHighlights(typedValue) {
+            const len = typedValue.length;
+            charElements.forEach((el, i) => {
+                el.classList.remove('correct', 'incorrect', 'current');
+                if (i < len) {
+                    if (typedValue[i] === currentQuote[i]) {
+                        el.classList.add('correct');
+                    } else {
+                        el.classList.add('incorrect');
+                        errorSet.add(i); // remember every position that was incorrectly typed
+                    }
+                } else if (i === len) {
+                    el.classList.add('current');
+                }
+            });
+        }
+
+        function endTest() {
+            stopTimer();
+            isActive = false;
+            userInput.disabled = true;
+            testStartBtn.disabled = false;
+            testResetBtn.disabled = false;
+
+            const timeSec   = (Date.now() - startTime) / 1000;
+            const timeMin   = timeSec / 60;
+            // WPM: words = characters / 5 (standard)
+            const wordCount = currentQuote.length / 5;
+            const wpm       = Math.max(0, Math.round(wordCount / timeMin));
+
+            // Accuracy: based on correct characters in the final typed string
+            let correctChars = 0;
+            const typed = userInput.value;
+            for (let i = 0; i < typed.length; i++) {
+                if (typed[i] === currentQuote[i]) correctChars++;
+            }
+            const accuracy = typed.length > 0
+                ? Math.round((correctChars / typed.length) * 100)
+                : 100;
+
+            resultWPM.textContent      = wpm;
+            resultAccuracy.textContent = accuracy + '%';
+            resultTime.textContent     = timeSec.toFixed(1) + 's';
+            resultErrors.textContent   = errorSet.size;
+
+            modal.classList.add('active');
+        }
+
+        /* =====================
+           EVENT LISTENERS
+        ===================== */
+        startTestBtn.addEventListener('click', showTypingTestPage);
+        backToLandingBtn.addEventListener('click', showLandingPage);
+
+        testStartBtn.addEventListener('click', () => {
+            initializeTest();
+            isActive = true;
+            userInput.disabled = false;
+            userInput.focus();
+            testStartBtn.disabled = true;
+            testResetBtn.disabled = false;
+            startTimer();
+        });
+
+        testResetBtn.addEventListener('click', () => {
+            initializeTest();
+        });
+
+        userInput.addEventListener('input', () => {
+            if (!isActive) return;
+
+            const typed = userInput.value;
+
+            // Prevent typing beyond quote length
+            if (typed.length > currentQuote.length) {
+                userInput.value = typed.slice(0, currentQuote.length);
+                return;
+            }
+
+            updateCharHighlights(typed);
+            updateProgress(typed.length);
+
+            // Test complete when all characters are typed
+            if (typed.length === currentQuote.length) {
+                endTest();
+            }
+        });
+
+        // Prevent paste
+        userInput.addEventListener('paste', e => e.preventDefault());
+
+        // Close modal
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        newTestBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            // Re-run start flow
+            isActive = true;
+            initializeTest();
+            // Small delay so initializeTest finishes before re-enabling
+            setTimeout(() => {
+                isActive = true;
+                userInput.disabled = false;
+                userInput.focus();
+                testStartBtn.disabled = true;
+                testResetBtn.disabled = false;
+                startTimer();
+            }, 50);
+        });
+
+        modal.addEventListener('click', e => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        // Keyboard shortcut: Escape closes modal
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+
+        /* =====================
+           INIT
+        ===================== */
+        showLandingPage();
+    </script>
+</body>
+</html>
